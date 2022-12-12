@@ -131,4 +131,45 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('status', 'Student Deleted Successfully');
     }
 
+    public function edit($id){
+        $student = student::find($id);
+
+        return view('students.edit')->with('student', $student);
+    }
+    public function update($id,  Request $request){
+        $student = student::find($id);
+        $validator= Validator::make($request->all(),[
+            'Student_Name' => 'required',
+            'Student_Email' => 'required',
+            'Student_Image' => 'sometimes|image:jpeg,png,jpg|max:4096' // Only allow .jpg, .bmp and .png file types.
+        ]);
+
+        if($validator->passes()){
+            //save data here
+
+            $student->Student_Name   = $request->get('Student_Name');
+            $student->Student_Email  = $request->get('Student_Email');
+            if ($request->hasFile('Student_Image')) {
+                        $request->validate([
+                            'image' => 'mimes:jpeg,bmp,png,jpg|max:4096' // Only allow .jpg, .bmp and .png file types.
+                        ]);
+
+                        // Save the file locally in the storage/public/ folder under a new folder named /product
+                        $request->Student_Image->store('student', 'public');
+
+                        // Store the record, using the new file hashname which will be it's new filename identity.
+                        $student->Student_Image = $request->Student_Image->hashName();
+                    }
+            $student->save();
+            $request->session()->flash('success', 'Updated Successfully');
+            return redirect()->route('students.index');
+
+        }
+        else{
+            //return with errors
+            return redirect()->route('students.index')->withErrors($validator)->withInput();
+        }
+
+    }
+
 }

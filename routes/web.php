@@ -41,3 +41,5 @@ Route::middleware([
 Route::get('/students', [StudentController::class, 'index'])->name('students.index');
 Route::post('/students', [StudentController::class, 'store'])->name('students.store');
 Route::get('/students/delete/{id}', [StudentController::class, 'delete'])->name('students.delete');
+Route::get('/students/edit/{id}',[StudentController::class, 'edit'])->name('students.edit');
+Route::post('/students/edit/{id}/update',[StudentController::class, 'update'])->name('students.update');

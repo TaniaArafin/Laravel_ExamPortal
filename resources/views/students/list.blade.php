@@ -108,7 +108,7 @@
                                 <img src="{{ asset('storage/student/'. $item['Student_Image']) }}" alt="" width="35px">
                             </td>
                             <td>
-                                <a href="#" class="btn btn-primary fw-bold btn-sm"><span class="material-icons">edit</span></a>
+                                <a href="/students/edit/{{$item->id}}"  class="btn btn-primary fw-bold btn-sm"><span class="material-icons">edit</span></a>
                                 <a href="/students/delete/{{$item->id}}" class="btn btn-danger fw-bold btn-sm"><span class="material-icons">delete</span></a>
                             </td>
                         </tr>
